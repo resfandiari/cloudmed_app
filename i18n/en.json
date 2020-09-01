@@ -1,0 +1,18 @@
+{
+  "name_app": "Cloud Medical",
+  "sorry": "sorry!",
+  "not_permission" : "Without agree with this permission you can not enable this feature",
+  "remember": "Remember",
+  "agree": "Agree",
+  "disAgree": "DisAgree",
+  "please_wait": "please wait...",
+  "Incorrect_android_version": "you'r android version don't allow to run this feature!",
+  "how_to": "How to  ?",
+  "app_lang": "App Language",
+  "unable_load_image": "Unable to load image",
+  "can_not_do": "We cannot perform the desired operation",
+  "nothing_to_show": "There isn't anything to show",
+  "back_to_home": "Back to Main Page",
+  "setting": "Setting",
+  "try_again": "Try Again"
+}

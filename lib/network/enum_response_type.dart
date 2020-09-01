@@ -1,0 +1,4 @@
+enum EnumResponseType {
+  success,
+  failed
+}
