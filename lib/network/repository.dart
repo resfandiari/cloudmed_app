@@ -1,4 +1,5 @@
 import 'package:cloudmed_app/model/model.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'api_provider.dart';
 
@@ -28,4 +29,16 @@ class Repository {
   ///required [page]
   ///response [Map]
   Future<Map> getPost({int page}) => apiProvider.getPost(page: page);
+
+  ///get post comment
+  ///required [page]
+  ///response [Map]
+  Future<Map> getPostComment({String post_id}) =>
+      apiProvider.getPostComment(post_id: post_id);
+
+  ///send post comment
+  ///required [page]
+  ///response [Map]
+  Future<Response> sendPostComment({CommentReq commentReq}) =>
+      apiProvider.sendPostComment(commentReq: commentReq);
 }

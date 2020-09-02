@@ -9,3 +9,6 @@ export 'image.dart';
 export 'page_info.dart';
 export 'pivot.dart';
 export 'user.dart';
+export 'comment.dart';
+export 'comment_res.dart';
+export 'comment_req.dart';

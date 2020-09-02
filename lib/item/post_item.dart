@@ -9,8 +9,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class PostItem extends StatefulWidget {
   final Data model;
   final bool isDark;
+  final VoidCallback onClick;
 
-  PostItem({this.model, this.isDark});
+  PostItem({this.model, this.isDark, this.onClick});
 
   @override
   _PostItemState createState() => _PostItemState();
@@ -74,7 +75,10 @@ class _PostItemState extends State<PostItem> {
               SizedBox(
                 width: 12,
               ),
-              Icon(Icons.comment),
+              IconButton(
+                icon: Icon(Icons.comment),
+                onPressed: () => widget.onClick.call(),
+              ),
               SizedBox(
                 width: 12,
               ),

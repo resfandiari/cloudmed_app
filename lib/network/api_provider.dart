@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloudmed_app/model/comment_res.dart';
 import 'package:cloudmed_app/model/model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -123,6 +124,9 @@ class ApiProvider {
     }
   }
 
+  ///all post
+  ///required [page]
+  ///response [Map]
   Future<Map> getPost({int page}) async {
     Response response;
     try {
@@ -154,6 +158,66 @@ class ApiProvider {
     } else {
       throw Exception(changeErrorCodeToMessage(
           response.statusCode != null ? response.statusCode : 0));
+    }
+  }
+
+  ///post comment
+  ///required [post_id]
+  ///response [Map]
+  Future<Map> getPostComment({String post_id}) async {
+    Response response;
+    try {
+      response = await _clientConfigs
+          .dio(token: token, connectTimeout: 10000)
+          .get('post/comment', queryParameters: {"post_id": post_id});
+      print(response.data);
+    } catch (e) {
+      print(e);
+      throw Exception(
+          changeErrorCodeToMessage(response != null ? response.statusCode : 0));
+    }
+
+    if (response.statusCode == 200) {
+      CommentRes model = CommentRes.fromJson(response.data);
+
+      List<Comment> products = [];
+      if (model.data != null) {
+        products.addAll(model.data);
+      }
+
+      final Map<String, dynamic> _map = <String, dynamic>{
+        "success": response.data['success'],
+        "data": products,
+      };
+
+      return _map;
+    } else {
+      throw Exception(changeErrorCodeToMessage(
+          response.statusCode != null ? response.statusCode : 0));
+    }
+  }
+
+  ///send post comment
+  ///required [post_id]
+  ///response [Response]
+  Future<Response> sendPostComment({CommentReq commentReq}) async {
+    Response response;
+    try {
+      response = await _clientConfigs
+          .dio(token: token)
+          .post('post/comment/create', data: commentReq.toJson());
+      print('response.data ${response.data}');
+    } catch (e) {
+      print(e);
+      throw Exception(
+          changeErrorCodeToMessage(response != null ? response.statusCode : 0));
+    }
+
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception(
+          changeErrorCodeToMessage(response != null ? response.statusCode : 0));
     }
   }
 }

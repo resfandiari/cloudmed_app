@@ -1,7 +1,10 @@
+import 'package:cloudmed_app/bloc/comment/comment.dart';
 import 'package:cloudmed_app/bloc/post/post.dart';
 import 'package:cloudmed_app/common/app_localizations.dart';
 import 'package:cloudmed_app/common/app_theme/app_theme_cubit.dart';
 import 'package:cloudmed_app/item/post_item.dart';
+import 'package:cloudmed_app/model/model.dart';
+import 'package:cloudmed_app/network/repository.dart';
 import 'package:cloudmed_app/widget/BottomLoader.dart';
 import 'package:cloudmed_app/widget/LoadingListPage.dart';
 import 'package:cloudmed_app/widget/TryToConnectinWidget.dart';
@@ -9,7 +12,13 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'post_comment.dart';
+
 class Home extends StatefulWidget {
+  final Repository repository;
+
+  Home(this.repository);
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -68,7 +77,8 @@ class _HomeState extends State<Home> {
                       : PostItem(
                           isDark: getThemeBrightness(),
                           model: state.products[index],
-                        );
+                          onClick: () => _navigateToComment(
+                              post_id: state.products[index].id.toString()));
                 },
                 itemCount: state.hasReachedMax
                     ? state.products.length
@@ -98,5 +108,19 @@ class _HomeState extends State<Home> {
   ///get theme property
   bool getThemeBrightness() {
     return context.bloc<AppThemeCubit>().isDark;
+  }
+
+  ///navigate to show cooment
+  _navigateToComment({String post_id}) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+      return BlocProvider<CommentListBloc>(
+        create: (context) =>
+            CommentListBloc(widget.repository, post_id: post_id),
+        child: PostComment(
+          widget.repository,
+          post_id: post_id,
+        ),
+      );
+    }));
   }
 }

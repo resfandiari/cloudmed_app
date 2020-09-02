@@ -73,7 +73,7 @@ class _AppState extends State<App> with TickerProviderStateMixin<App> {
           child: MultiBlocProvider(providers: [
             BlocProvider<PostListBloc>(
                 create: (context) => PostListBloc(_repo)),
-          ], child: Home()),
+          ], child: Home(_repo)),
         ),
         drawer: Drawer(
           child: new CustomScrollView(
