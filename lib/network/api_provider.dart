@@ -122,4 +122,38 @@ class ApiProvider {
           changeErrorCodeToMessage(response != null ? response.statusCode : 0));
     }
   }
+
+  Future<Map> getPost({int page}) async {
+    Response response;
+    try {
+      response = await _clientConfigs
+          .dio(token: token, connectTimeout: 10000)
+          .get('post?page=$page');
+      print(response.data);
+    } catch (e) {
+      print(e);
+      throw Exception(
+          changeErrorCodeToMessage(response != null ? response.statusCode : 0));
+    }
+
+    if (response.statusCode == 200) {
+      AllPostRes model = AllPostRes.fromJson(response.data);
+
+      List<Data> products = [];
+      if (model.data.data != null) {
+        products.addAll(model.data.data);
+      }
+
+      final Map<String, dynamic> _map = <String, dynamic>{
+        "success": response.data['success'],
+        "total": response.data["data"]['total'],
+        "data": products,
+      };
+
+      return _map;
+    } else {
+      throw Exception(changeErrorCodeToMessage(
+          response.statusCode != null ? response.statusCode : 0));
+    }
+  }
 }

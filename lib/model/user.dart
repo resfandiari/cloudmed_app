@@ -11,7 +11,6 @@ class User {
   int active;
   String createdAt;
   String updatedAt;
-  Null deletedAt;
   String name;
   String avatar;
   Null cover;
@@ -19,30 +18,28 @@ class User {
   String username;
   String type;
   int hideCover;
-  Null backgroundId;
 
-  User(
-      {this.id,
-      this.timelineId,
-      this.mcc,
-      this.mobileNumber,
-      this.isMobileVerify,
-      this.isUserVerify,
-      this.verified,
-      this.balance,
-      this.birthday,
-      this.active,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.name,
-      this.avatar,
-      this.cover,
-      this.about,
-      this.username,
-      this.type,
-      this.hideCover,
-      this.backgroundId});
+  User({
+    this.id,
+    this.timelineId,
+    this.mcc,
+    this.mobileNumber,
+    this.isMobileVerify,
+    this.isUserVerify,
+    this.verified,
+    this.balance,
+    this.birthday,
+    this.active,
+    this.createdAt,
+    this.updatedAt,
+    this.name,
+    this.avatar,
+    this.cover,
+    this.about,
+    this.username,
+    this.type,
+    this.hideCover,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,7 +54,6 @@ class User {
     active = json['active'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
     name = json['name'];
     avatar = json['avatar'];
     cover = json['cover'];
@@ -65,7 +61,6 @@ class User {
     username = json['username'];
     type = json['type'];
     hideCover = json['hide_cover'];
-    backgroundId = json['background_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -82,7 +77,6 @@ class User {
     data['active'] = this.active;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
     data['name'] = this.name;
     data['avatar'] = this.avatar;
     data['cover'] = this.cover;
@@ -90,7 +84,6 @@ class User {
     data['username'] = this.username;
     data['type'] = this.type;
     data['hide_cover'] = this.hideCover;
-    data['background_id'] = this.backgroundId;
 
     return data;
   }

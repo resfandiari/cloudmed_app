@@ -43,6 +43,7 @@ dependencies:
   flushbar: ^1.10.4
   package_info: ^0.4.3
   font_awesome_flutter: ^8.8.1
+  extended_nested_scroll_view: ^1.0.1
 
 dev_dependencies:
   flutter_test:

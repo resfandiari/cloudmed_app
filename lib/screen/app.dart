@@ -1,8 +1,8 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:cloudmed_app/bloc/post/post.dart';
 import 'package:cloudmed_app/common/app_language/app_language_cubit.dart';
 import 'package:cloudmed_app/common/app_localizations.dart';
 import 'package:cloudmed_app/common/app_theme/app_theme_cubit.dart';
-import 'package:cloudmed_app/common/theme_config.dart';
 import 'package:cloudmed_app/network/network.dart';
 import 'package:cloudmed_app/widget/BaseAppBar.dart';
 import 'package:cloudmed_app/widget/SliverFooter.dart';
@@ -29,14 +29,14 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with TickerProviderStateMixin<App> {
-  Repository repo;
+  Repository _repo;
   List<DrawerItem> _drawerItem;
   ProgressDialog pr;
 
   @override
   void initState() {
     ///config repo
-    repo = new Repository(
+    _repo = new Repository(
         apiProvider:
             new ApiProvider(token: widget.token, userID: widget.userId));
 
@@ -70,7 +70,10 @@ class _AppState extends State<App> with TickerProviderStateMixin<App> {
         ),
         body: SafeArea(
           top: false,
-          child: Home(),
+          child: MultiBlocProvider(providers: [
+            BlocProvider<PostListBloc>(
+                create: (context) => PostListBloc(_repo)),
+          ], child: Home()),
         ),
         drawer: Drawer(
           child: new CustomScrollView(
@@ -83,8 +86,8 @@ class _AppState extends State<App> with TickerProviderStateMixin<App> {
                   child: SizedBox.shrink(),
                   decoration: BoxDecoration(
                       color: getThemeBrightness()
-                          ? Theme.of(context).primaryColor
-                          : Colors.white,
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
                       image: DecorationImage(
                           image: AssetImage("assets/icons/app_ic.png"),
                           fit: BoxFit.contain)),
@@ -171,8 +174,8 @@ class _AppState extends State<App> with TickerProviderStateMixin<App> {
                                   fontFamily: "VazirM",
                                   fontSize: ScreenUtil().setSp(36),
                                   color: getThemeBrightness()
-                                      ? Colors.white
-                                      : Colors.black87),
+                                      ? Colors.black87
+                                      : Colors.white),
                             ),
                             Expanded(
                               child: Container(),
@@ -224,7 +227,7 @@ class _AppState extends State<App> with TickerProviderStateMixin<App> {
   ///logout user
   _logout() async {
     await pr.show();
-    repo.logout().then((value) {
+    _repo.logout().then((value) {
       print('print then $value');
       if (pr.isShowing()) {
         pr.hide();

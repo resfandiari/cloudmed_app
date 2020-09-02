@@ -23,4 +23,9 @@ class Repository {
   ///required []
   ///response [LogoutRes]
   Future<LogoutRes> logout() => apiProvider.logout();
+
+  ///get all post
+  ///required [page]
+  ///response [Map]
+  Future<Map> getPost({int page}) => apiProvider.getPost(page: page);
 }
