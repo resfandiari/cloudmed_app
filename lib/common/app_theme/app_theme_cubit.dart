@@ -33,14 +33,13 @@ class AppThemeCubit extends Cubit<bool> {
   }
 
   /// change Theme between FA and EN.
-  void changeTheme(bool dark) async {
-    var prefs = await SharedPreferences.getInstance();
+  void changeTheme(bool dark, VoidCallback callback) async {
     if (_isDark == dark) {
       return;
     }
-    await prefs.setBool('theme_select', dark);
+    var prefs = await SharedPreferences.getInstance();
     _isDark = dark;
-    emit(_isDark);
+    await prefs.setBool('theme_select', dark).then((value) => callback.call());
     return;
   }
 }

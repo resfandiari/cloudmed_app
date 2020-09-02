@@ -1,8 +1,12 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:cloudmed_app/common/constants.dart';
+import 'package:cloudmed_app/common/theme_config.dart';
+import 'package:cloudmed_app/screen/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 
 import 'bloc/simple_bloc_observer.dart';
 import 'common/app_localizations.dart';
@@ -68,34 +72,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AppLanguageCubit, Locale>(
       builder: (context, local) {
-        final bool _isEN = local.languageCode.compareTo("en") == 0;
-
         return BlocBuilder<AppThemeCubit, bool>(
           builder: (context, isDark) {
             return ThemeProvider(
-                initTheme: isDark
-                    ? ThemeData.dark().copyWith(
-                        primaryColor: Colors.cyan,
-                        textTheme: Theme.of(context)
-                            .textTheme
-                            .apply(fontFamily: _isEN ? "Flutter" : "Vazir"),
-                        primaryTextTheme: Theme.of(context)
-                            .textTheme
-                            .apply(fontFamily: _isEN ? "Flutter" : "Vazir"),
-                        accentTextTheme: Theme.of(context)
-                            .textTheme
-                            .apply(fontFamily: _isEN ? "Flutter" : "Vazir"))
-                    : ThemeData.light().copyWith(
-                        primaryColor: Colors.cyan,
-                        textTheme: Theme.of(context)
-                            .textTheme
-                            .apply(fontFamily: _isEN ? "Flutter" : "Vazir"),
-                        primaryTextTheme: Theme.of(context)
-                            .textTheme
-                            .apply(fontFamily: _isEN ? "Flutter" : "Vazir"),
-                        accentTextTheme: Theme.of(context)
-                            .textTheme
-                            .apply(fontFamily: _isEN ? "Flutter" : "Vazir")),
+                initTheme: isDark ? darkTheme : lightTheme,
                 child: Builder(builder: (context) {
                   return MaterialApp(
                     locale: local,
@@ -113,7 +93,7 @@ class MyApp extends StatelessWidget {
                       GlobalWidgetsLocalizations.delegate,
                     ],
                     debugShowCheckedModeBanner: false,
-                    home: MyHomePage(title: 'Flutter Demo Home Page'),
+                    home: Prerequisite(),
                   );
                 }));
           },
@@ -123,51 +103,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+//prerequisite module for app
+class Prerequisite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ThemeSwitchingArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _incrementCounter,
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ),
-      ),
-    );
+    //set device run only in portrait screen
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    ///Set the fit size
+    ScreenUtil.init(context);
+
+    return Splash();
   }
 }

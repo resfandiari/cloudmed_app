@@ -22,7 +22,7 @@ class ClientConfigs {
     _dio.options.validateStatus = (status) => status < 500;
 
     if (token != null && token.length != 0)
-      _dio.options.headers = {"Authorization": token};
+      _dio.options.headers["Authorization"] = "Bearer " + token;
     //Instance level
 //    _dio.options.contentType= ContentType.parse("application/json") ;
 

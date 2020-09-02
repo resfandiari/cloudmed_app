@@ -36,7 +36,7 @@ dependencies:
   cached_network_image: ^2.3.1
   flutter_screenutil: ^2.3.1
   shared_preferences: ^0.5.10
-  animated_theme_switcher: ^1.0.7
+  animated_theme_switcher: ^1.0.6
   connectivity: ^0.4.9+2
   shimmer: ^1.1.1
   progress_dialog: ^1.2.4
@@ -64,6 +64,8 @@ flutter:
     - assets/
     - assets/images/
     - assets/icons/
+    - assets/icons/app_ic.png
+    - assets/images/background.png
     - i18n/en.json
     - i18n/fa.json
 
@@ -91,5 +93,8 @@ flutter:
     - family: Flutter
       fonts:
         - asset: assets/fonts/Flutter.ttf
+    - family: YekanB
+      fonts:
+        - asset: assets/fonts/Yekan-Bold.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const String SERVER = "https://ser1.khuzland.ir/";
+  static const String SERVER = "https://clinic.cloudmed.ir/API7_v2/public/api/";
 
   //App related strings
   static String appNameEN = "Cloud Medical";
