@@ -9,9 +9,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class PostItem extends StatefulWidget {
   final Data model;
   final bool isDark;
-  final VoidCallback onClick;
+  final VoidCallback onCommentClick;
+  final VoidCallback onLikeClick;
 
-  PostItem({this.model, this.isDark, this.onClick});
+  PostItem({this.model, this.isDark, this.onCommentClick, this.onLikeClick});
 
   @override
   _PostItemState createState() => _PostItemState();
@@ -20,6 +21,7 @@ class PostItem extends StatefulWidget {
 class _PostItemState extends State<PostItem> {
   @override
   Widget build(BuildContext context) {
+    print("is like ${widget.model.isLiked}");
     return Column(
       children: [
         Padding(
@@ -71,22 +73,33 @@ class _PostItemState extends State<PostItem> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Icon(Icons.favorite_border),
+              IconButton(
+                icon: Icon(widget.model.isLiked == 0
+                    ? Icons.favorite_border
+                    : Icons.favorite),
+                onPressed: () => widget.onLikeClick.call(),
+              ),
               SizedBox(
                 width: 12,
               ),
               IconButton(
                 icon: Icon(Icons.comment),
-                onPressed: () => widget.onClick.call(),
+                onPressed: () => widget.onCommentClick.call(),
               ),
               SizedBox(
                 width: 12,
               ),
-              Icon(Icons.send),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.send),
+              ),
               Expanded(
                 child: Container(),
               ),
-              Icon(Icons.turned_in_not),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.turned_in_not),
+              ),
             ],
           ),
         )

@@ -101,7 +101,6 @@ class _SendCommentState extends State<SendComment> {
                           textDirection: TextDirection.rtl,
                           textAlign: TextAlign.start,
                           keyboardType: TextInputType.text,
-                          style: const TextStyle(color: Colors.black),
                           decoration: new InputDecoration(
                             contentPadding: const EdgeInsets.only(
                                 top: 10, right: 5, bottom: 10, left: 5),

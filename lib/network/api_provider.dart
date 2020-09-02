@@ -220,4 +220,32 @@ class ApiProvider {
           changeErrorCodeToMessage(response != null ? response.statusCode : 0));
     }
   }
+
+  ///send post comment
+  ///required [post_id]
+  ///response [LikeRes]
+  Future<LikeRes> postLikeAndUnlike({String post_id}) async {
+    FormData formData = FormData.fromMap({
+      "post_id": post_id,
+    });
+
+    Response response;
+    try {
+      response = await _clientConfigs
+          .dio(token: token)
+          .post('post/like', data: formData);
+      print('response.data ${response.data}');
+    } catch (e) {
+      print(e);
+      throw Exception(
+          changeErrorCodeToMessage(response != null ? response.statusCode : 0));
+    }
+
+    if (response.statusCode == 200) {
+      return LikeRes.fromJson(response.data);
+    } else {
+      throw Exception(
+          changeErrorCodeToMessage(response != null ? response.statusCode : 0));
+    }
+  }
 }

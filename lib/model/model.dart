@@ -12,3 +12,4 @@ export 'user.dart';
 export 'comment.dart';
 export 'comment_res.dart';
 export 'comment_req.dart';
+export 'like_res.dart';

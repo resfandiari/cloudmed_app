@@ -1,3 +1,4 @@
+import 'package:cloudmed_app/model/like_res.dart';
 import 'package:cloudmed_app/model/model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -41,4 +42,10 @@ class Repository {
   ///response [Map]
   Future<Response> sendPostComment({CommentReq commentReq}) =>
       apiProvider.sendPostComment(commentReq: commentReq);
+
+  ///add post like/unlike
+  ///required [page]
+  ///response [Map]
+  Future<LikeRes> postLikeAndUnlike({String post_id}) =>
+      apiProvider.postLikeAndUnlike(post_id: post_id);
 }

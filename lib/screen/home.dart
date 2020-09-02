@@ -9,6 +9,7 @@ import 'package:cloudmed_app/widget/BottomLoader.dart';
 import 'package:cloudmed_app/widget/LoadingListPage.dart';
 import 'package:cloudmed_app/widget/TryToConnectinWidget.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,6 +27,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   PostListBloc _postListBloc;
   final _scrollThreshold = 200.0;
+  List<Data> dataList = [];
 
   @override
   void initState() {
@@ -61,6 +63,10 @@ class _HomeState extends State<Home> {
                   AppLocalizations.of(context).translate("nothing_to_show")),
             );
           }
+
+          ///add all data to list for local change
+          dataList = state.products;
+
           return NotificationListener<ScrollNotification>(
             onNotification: (scrollNotification) {
               if (scrollNotification is ScrollEndNotification) {
@@ -72,17 +78,17 @@ class _HomeState extends State<Home> {
               removeTop: true,
               child: ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
-                  return index >= state.products.length
+                  return index >= dataList.length
                       ? BottomLoader()
                       : PostItem(
                           isDark: getThemeBrightness(),
-                          model: state.products[index],
-                          onClick: () => _navigateToComment(
+                          model: dataList[index],
+                          onLikeClick: () => _likeOrUnlikePost(index),
+                          onCommentClick: () => _navigateToComment(
                               post_id: state.products[index].id.toString()));
                 },
-                itemCount: state.hasReachedMax
-                    ? state.products.length
-                    : state.products.length + 1,
+                itemCount:
+                    state.hasReachedMax ? dataList.length : dataList.length + 1,
               ),
             ),
           );
@@ -122,5 +128,36 @@ class _HomeState extends State<Home> {
         ),
       );
     }));
+  }
+
+  ///add like or unlike post
+  _likeOrUnlikePost(int index) {
+    _handleLikeLocalChange(index);
+
+    widget.repository
+        .postLikeAndUnlike(post_id: dataList[index].id.toString())
+        .then((v) {
+      print('print then $v');
+    }).catchError((e) {
+      Flushbar(
+        title: "متاسفیم!",
+        message: e.toString().contains('Exception:')
+            ? e.toString().replaceAll('Exception:', "")
+            : e.toString(),
+        duration: Duration(seconds: 2),
+      )..show(context).then((value) {
+          _handleLikeLocalChange(index);
+        });
+      print('print catchError $e');
+    });
+  }
+
+  ///local change for store like
+  _handleLikeLocalChange(int index) {
+    if (dataList[index].isLiked == 0) {
+      dataList[index].isLiked = 1;
+    } else
+      dataList[index].isLiked = 0;
+    setState(() {});
   }
 }
